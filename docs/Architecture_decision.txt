@@ -1,0 +1,15 @@
+
+
+Analysis:
+
+The starter project has 2 main features, the app user will be invoking, one is the list of persons using the app and the connections. This inturn has 3 seperate services get person information, get the persons connection based on user location. Each service can be migrated to individual microservices -> locations, connections, and persons.  I first thought of using gRPC for person API, as it has 3 services get all person, get person by id and create person, but felt enchancing it to REST would be more better with DB schema models already in place so used gRPC just for binary conversion for kafka messages only.
+
+
+From our existing api service tier, we will split out connection and location services.  Connection service is very heavy, and may need to perform specialized work over time in order to succeed in its function.  Location service is likely to be where some prep work as done.  In particular, the ability to perform deferred work outside the request/response cycle as we move forward would be welcome.
+
+Kafka is used behind the location creation endpoint, as this information is collected based on while the user is using the app and this needs to be updated to DB, this could be an asynchornos call for better performance as this information is not displayed in the UI. Topic listeners write to the database and can perform any other activity.  
+
+As we've taken in the JSON and now are free to model Location data conveniently, a binary envelope is a good fit for kafka so just protobuf message format is used while sending message to the queue.
+
+One of the service find contacts might take huge processing time as it has complicated query, so I prefer to have multiple services for this to improve performace, also looking for prossiblity of asynchronous call so that once the connection is fetched for the user the info can be loaded on to the screen.
+

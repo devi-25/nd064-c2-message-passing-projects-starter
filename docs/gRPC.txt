@@ -1,0 +1,6 @@
+gRPC:
+
+Initiall approcah was to convert the persons API as gRPC, but later I enhancing it as REST was a better option for future modification flexibility.
+Also I was reviewing to integrate gRPC and Kafka for location api, but as per my readings we can choose between either of the two and its not worth it to integrate between them on is synchronous and other is asynchronou
+
+Both needs the message to be in binary formart, used the gRPC message format to send the message to the kafka queue.

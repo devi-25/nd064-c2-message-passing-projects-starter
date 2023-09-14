@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: udaconnect-ingress
+  # annotations:
+  #   cert-manager.io/cluster-issuer: <%= issuer_provider %>-<%= cluster_name %>
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "cloudnative-project"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /udaconnect(/api/persons/\d*/connection/?)
+            backend:
+              service: 
+                name: udaconnect-connection-api
+                port:
+                  number: 5003
+          - pathType: Prefix
+            path: /udaconnect(/api/persons/\d*/?)
+            backend:
+              service: 
+                name: udaconnect-api
+                port:
+                  number: 5002
+          - pathType: Prefix
+            path: /udaconnect(/api/locations/\d*/?)
+            backend:
+              service: 
+                name: udaconnect-location-api
+                port:
+                  number: 5004
+          - pathType: Prefix
+            path: /udaconnect(/api/persons/?)
+            backend:
+              service: 
+                name: udaconnect-api
+                port:
+                  number: 5002
+          - pathType: Prefix
+            path: /udaconnect(/api/locations/?)
+            backend:
+              service: 
+                name: udaconnect-location-api
+                port:
+                  number: 5004
+          - pathType: Prefix
+            path: /udaconnect/(.*)
+            backend:
+              service: 
+                name: udaconnect-app
+                port:
+                  number: 3000

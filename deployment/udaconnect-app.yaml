@@ -12,7 +12,7 @@ spec:
     nodePort: 30000
   selector:
     service: udaconnect-app
-  type: NodePort
+  type: NodePort  
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -31,7 +31,7 @@ spec:
         service: udaconnect-app
     spec:
       containers:
-      - image: udacity/nd064-udaconnect-app:latest
+      - image: deviesadocker/udaconnect-app:latest
         name: udaconnect-app
         imagePullPolicy: Always
         resources:

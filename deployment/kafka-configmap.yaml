@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  FLASK_KAFKA_SERVER: "my-release-kafka.default.svc.cluster.local:9092"
+  FLASK_KAFKA_TOPIC: "locations"
+metadata:
+  name: kafka-env
